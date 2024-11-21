@@ -1,13 +1,13 @@
 Sub RenameTablesWithPrefixAndStore(vPrefix,vTableNumberStart,vSubQVDStorePath)
     if len('$(vPrefix)')<1 then
         Trace vPrefix is Empty;
-        drop Table [Script Execution Error];
+        drop Table [Ошибка выполнения скрипта];
     ElseIf ('$(vTableNumberStart)'<0 or len('$(vTableNumberStart)')<1) then
         Trace vTableNumberStart is Empty or Incorrect;
-        drop Table [Script Execution Error];
+        drop Table [Ошибка выполнения скрипта];
     ElseIf not WildMatch('$(vSubQVDStorePath)','lib*') then
         Trace vSubQVDStorePath is Empty or Incorrect;
-        drop Table [Script Execution Error];
+        drop Table [Ошибка выполнения скрипта];
     EndIf;
     
     
@@ -21,8 +21,10 @@ Sub RenameTablesWithPrefixAndStore(vPrefix,vTableNumberStart,vSubQVDStorePath)
         let l = null();
         for l=0 to $(vNoOfFields)
             Let vFieldNameOld = FieldName('$(l)', '$(vTableNameOld)');
-            Let vFieldNameNew = '$(vTableNameOld)'&Chr(46)&'$(vFieldNameOld)';
-            Rename Field [$(vFieldNameOld)] to [$(vFieldNameNew)];
+            Let vFieldNameNew = '$(vPrefix)'&Chr(46)&'$(vFieldNameOld)';
+            if not WildMatch('$(vFieldNameOld)','$(vPrefix)*') then
+                Rename Field [$(vFieldNameOld)] to [$(vFieldNameNew)];
+            EndIf;
             Next l
         Rename Table [$(vTableNameOld)] to [$(vTableNameNew)];
            Store [$(vTableNameNew)] into [$(vSubQVDStorePath)/$(vTableNameNew).qvd];
@@ -40,6 +42,3 @@ Sub RenameTablesWithPrefixAndStore(vPrefix,vTableNumberStart,vSubQVDStorePath)
         Drop Tables $(vTablesListField);
         
 EndSub;
-
-//Example
-//Call RenameTablesWithPrefixAndStore('fin','0','lib://QVD/SummaryReport');

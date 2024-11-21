@@ -15,7 +15,7 @@ Sub RenameTablesWithPrefixAndStore(vPrefix,vTableNumberStart,vSubQVDStorePath)
     Let vTableNumberFinish = NoOfTables()-1;
     for k = $(vTableNumberStart) to $(vTableNumberFinish)  
         let vTableNameOld = TableName($(k));
-        let vTableNameNew = '$(vPrefix)'&Chr(46)&TableName($(k))&Chr(46)&'$(k)';
+        let vTableNameNew = '$(vPrefix)'&Chr(46)&'$(k)'&Chr(46)&TableName($(k));
         let vNoOfFields = NoOfFields('$(vTableNameOld)');
         Trace vNoOfFields $(vNoOfFields);
         let l = null();

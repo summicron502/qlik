@@ -41,4 +41,5 @@ Sub RenameTablesWithPrefixAndStore(vPrefix,vTableNumberStart,vSubQVDStorePath)
         
 EndSub;
 
-Call RenameTablesWithPrefixAndStore('fin','0','lib://QVD/SummaryReport');
+//Example
+//Call RenameTablesWithPrefixAndStore('fin','0','lib://QVD/SummaryReport');

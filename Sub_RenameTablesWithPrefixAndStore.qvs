@@ -1,13 +1,13 @@
 Sub RenameTablesWithPrefixAndStore(vPrefix,vTableNumberStart,vSubQVDStorePath)
     if len('$(vPrefix)')<1 then
         Trace vPrefix is Empty;
-        drop Table [Ошибка выполнения скрипта];
+        drop Table [Script execution error];
     ElseIf ('$(vTableNumberStart)'<0 or len('$(vTableNumberStart)')<1) then
         Trace vTableNumberStart is Empty or Incorrect;
-        drop Table [Ошибка выполнения скрипта];
+        drop Table [Script execution error];
     ElseIf not WildMatch('$(vSubQVDStorePath)','lib*') then
         Trace vSubQVDStorePath is Empty or Incorrect;
-        drop Table [Ошибка выполнения скрипта];
+        drop Table [Script execution error];
     EndIf;
     
     

@@ -1,0 +1,44 @@
+Sub RenameTablesWithPrefixAndStore(vPrefix,vTableNumberStart,vSubQVDStorePath)
+    if len('$(vPrefix)')<1 then
+        Trace vPrefix is Empty;
+        drop Table [Ошибка выполнения скрипта];
+    ElseIf ('$(vTableNumberStart)'<0 or len('$(vTableNumberStart)')<1) then
+        Trace vTableNumberStart is Empty or Incorrect;
+        drop Table [Ошибка выполнения скрипта];
+    ElseIf not WildMatch('$(vSubQVDStorePath)','lib*') then
+        Trace vSubQVDStorePath is Empty or Incorrect;
+        drop Table [Ошибка выполнения скрипта];
+    EndIf;
+    
+    
+    let k = null();
+    Let vTableNumberFinish = NoOfTables()-1;
+    for k = $(vTableNumberStart) to $(vTableNumberFinish)  
+        let vTableNameOld = TableName($(k));
+        let vTableNameNew = '$(vPrefix)'&Chr(46)&TableName($(k))&Chr(46)&'$(k)';
+        let vNoOfFields = NoOfFields('$(vTableNameOld)');
+        Trace vNoOfFields $(vNoOfFields);
+        let l = null();
+        for l=0 to $(vNoOfFields)
+            Let vFieldNameOld = FieldName('$(l)', '$(vTableNameOld)');
+            Let vFieldNameNew = '$(vTableNameOld)'&Chr(46)&'$(vFieldNameOld)';
+            Rename Field [$(vFieldNameOld)] to [$(vFieldNameNew)];
+            Next l
+        Rename Table [$(vTableNameOld)] to [$(vTableNameNew)];
+           Store [$(vTableNameNew)] into [$(vSubQVDStorePath)/$(vTableNameNew).qvd];
+        TablesList:
+        Load
+            '[$(vTableNameNew)]' as TableNameNew
+            AutoGenerate 1;
+        Next k
+        TablesListConcat:
+        Load
+            Concat(TableNameNew,',') as TablesListField
+        Resident TablesList;
+        Let vTablesListField = Peek('TablesListField')&',[TablesList],[TablesListConcat]';
+        Trace vTablesListField $(vTablesListField);
+        Drop Tables $(vTablesListField);
+        
+EndSub;
+
+Call RenameTablesWithPrefixAndStore('fin','0','lib://QVD/SummaryReport');

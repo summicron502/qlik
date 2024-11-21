@@ -1,0 +1,5 @@
+[test]:
+LOAD 
+	RowNo() as id,
+	Round(Rand()*100) as data
+AutoGenerate 1000;

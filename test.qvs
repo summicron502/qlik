@@ -1,5 +1,6 @@
 [test]:
 LOAD 
 	RowNo() as id,
-	Round(Rand()*100) as data
+	Round(Rand()*100) as data,
+	'git' as hub
 AutoGenerate 1000;

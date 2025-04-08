@@ -34,7 +34,7 @@
 
 #### Сохранение всех опубликованных приложений в QVF файлы без данных (только скрипты и визуализации) с дополнительным файлом мета-данных в каталог с номером дня (удобно для создания ежедневных бэкапов глубиной в 1 месяц)
 
-`ctrl-q.exe qseow app-export --host qliksense.domain.example --virtual-proxy "" --auth-user-dir DOMAIN --auth-user-id sa_qliksense --output-dir "D:\QlikData\QVF\%date:~0,2%" --metadata-file-create --metadata-file-overwrite --exclude-app-data true --qvf-overwrite`
+`ctrl-q.exe qseow app-export --host qliksense.domain.example --virtual-proxy "" --auth-user-dir DOMAIN --auth-user-id sa_qliksense --output-dir "D:\QlikData\QVF\%date:~0,2%" --metadata-file-create --metadata-file-overwrite --app-published --exclude-app-data true --qvf-overwrite`
 
 #### Вывести перечень и статус заданий в виде дерева
 
